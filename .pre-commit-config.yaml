@@ -1,0 +1,23 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: check-added-large-files
+    args: [--maxkb=128]
+  - id: check-json
+  - id: check-yaml
+  - id: detect-aws-credentials
+  - id: detect-private-keu
+  - id: end-of-file-fixer
+  - id: forbid-submodules
+  - id: no-commit-to-branch
+    args: [--branch, main]
+  - id: trailling-whitespace
+- repo: https://github.com/pocc/pre-commit-hooks
+  rev: v1.3.5
+  hooks:
+  - id: clang-format
+    args: [--style=Google, -i]
+  - id: clang-tidy
+    args: [--fix-errors]
+  

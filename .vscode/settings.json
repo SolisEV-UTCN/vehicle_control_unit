@@ -1,0 +1,10 @@
+{
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "~/.conan2/**"
+    ],
+    "files.associations": {
+        "cerrno": "cpp"
+    },
+    "C_Cpp.formatting": "disabled"
+}

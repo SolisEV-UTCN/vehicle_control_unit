@@ -1,0 +1,13 @@
+[requires]
+libhal/[>=4.7]
+
+[tool_requires]
+arm-gnu-toolchain/[>=12.3]
+cmake/[>=3.18]
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

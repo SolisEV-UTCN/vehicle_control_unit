@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/Debug/vehicle_control_unit",
+            "name": "OpenOCD: Debug",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f1x.cfg"
+            ],
+            "preLaunchCommands": [
+                "monitor program ${workspaceFolder}/build/Debug/vehicle_control_unit verify reset"
+            ],
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/RelWithDebInfo/vehicle_control_unit",
+            "name": "OpenOCD: RelWithDebInfo",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f1x.cfg"
+            ],
+            "preLaunchCommands": [
+                "monitor program ${workspaceFolder}/build/RelWithDebInfo/vehicle_control_unit verify reset"
+            ],
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        }
+    ]
+}
