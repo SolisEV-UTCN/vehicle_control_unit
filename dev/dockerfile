@@ -1,0 +1,26 @@
+FROM ubuntu:24.10
+
+WORKDIR /usr/local/vcu
+
+COPY . .
+
+# Install toolchain
+RUN apt-get update
+RUN apt-get install -y build-essential \
+    cmake \
+    python3 \
+    python3-pip \
+    python3-venv \
+    gcc-arm-none-eabi \
+    g++-arm-none-eabi \
+    arm-none-eabi-binutils \
+    arm-none-eabi-gcc \
+    arm-none-eabi-gdb \
+    arm-none-eabi-newlib
+
+# Install and configure Conan
+RUN python3 -m pip install --no-cache-dir conan --break-system-packages
+RUN conan remote add libhal-trunk https://libhal.jfrog.io/artifactory/api/conan/trunk-conan
+
+# Run build script
+SHELL [ "bash", "scripts/build.sh", "-b", "Release", "-t", "stm32f303cb" ]

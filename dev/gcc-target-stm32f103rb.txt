@@ -1,0 +1,22 @@
+[settings]
+os=baremetal
+arch=cortex-m3
+compiler=gcc
+compiler.version=14.2
+compiler.libcxx=libstdc++11
+compiler.cppstd=20
+build_type=Release
+libc=custom
+
+[options]
+*: platform=stm32f103rb
+*: shared=False
+*: fPIC=True
+
+[buildenv]
+CC=/usr/sbin/arm-none-eabi-gcc
+CXX=/usr/sbin/arm-none-eabi-g++
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja
+tools.cmake.cmaketoolchain:user_toolchain+={{profile_dir}}/cmake/stm32f103rb.cmake

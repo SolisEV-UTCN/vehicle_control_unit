@@ -11,8 +11,13 @@ set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
 set(CMAKE_CXX_FLAGS_RELEASE "-Os -flto")
 
+if(NOT DEFINED CONAN_OPTION_PLATFORM)
+    message(FATAL_ERROR "The Conan option 'platform' is not defined. Please set the 'platform' option in your conanfile.txt or pass it via the command line(e.g., -o platform=stm32f303rb) . ")
+endif()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CONAN_OPTION_PLATFORM})
+
 # Enable compiler flags for a strict compiler
-set(CPU_OPTIONS -mthumb -mcpu=cortex-m3)
 set(COMPILE_OPTIONS
     $<$<COMPILE_LANGUAGE:CXX>:-fms-extensions>
     $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
@@ -37,15 +42,6 @@ set(COMPILE_OPTIONS
 )
 add_compile_options(${CPU_OPTIONS} ${COMPILE_OPTIONS})
 
-# Include conan packages
-# find_package(libhal REQUIRED)
-
-# Add startup files
-set(STARTUP_FILES
-    src/startup/handlers.cpp
-    src/startup/startup.cpp
-)
-
 # Main executable
 include_directories(${CMAKE_SOURCE_DIR})
 link_directories(${CMAKE_SOURCE_DIR})
@@ -54,11 +50,13 @@ add_executable(${PROJECT_NAME}
     ${STARTUP_FILES}
 )
 
+# Include conan packages
+# find_package(libhal REQUIRED)
+
 # Link conan packages
 # target_link_libraries(${PROJECT_NAME} libhal::libhal)
 
 # Use custom linker
-set(LINKER_SCRIPT "dev/linkers/stm32f103rbtx.ld")
 target_link_libraries(${PROJECT_NAME}
     ${CPU_OPTIONS}
     -T${LINKER_SCRIPT}
