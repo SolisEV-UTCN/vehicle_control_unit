@@ -1,26 +1,23 @@
 FROM ubuntu:24.10
 
+VOLUME /build
+
+ENV BUILD_TYPE=Release
+ENV TARGET=stm32f303cb
+
 WORKDIR /usr/local/vcu
 
 COPY . .
 
-# Install toolchain
+# Install system dependencies
 RUN apt-get update
-RUN apt-get install -y build-essential \
-    cmake \
-    python3 \
-    python3-pip \
-    python3-venv \
-    gcc-arm-none-eabi \
-    g++-arm-none-eabi \
-    arm-none-eabi-binutils \
-    arm-none-eabi-gcc \
-    arm-none-eabi-gdb \
-    arm-none-eabi-newlib
+RUN apt-get install -y binutils-arm-none-eabi cmake git python3 python3-pip python3-venv
 
 # Install and configure Conan
 RUN python3 -m pip install --no-cache-dir conan --break-system-packages
 RUN conan remote add libhal-trunk https://libhal.jfrog.io/artifactory/api/conan/trunk-conan
+RUN conan config install -sf profiles/baremetal/v2 https://github.com/libhal/conan-config.git
+RUN conan profile detect --force
 
-# Run build script
-SHELL [ "bash", "scripts/build.sh", "-b", "Release", "-t", "stm32f303cb" ]
+# Run build script and move target binaries
+ENTRYPOINT [ "/bin/bash", "-c", "scripts/build_docker.sh", "-b", $BUILD_TYPE, "-t", $TARGET ]

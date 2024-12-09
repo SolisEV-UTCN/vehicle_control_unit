@@ -20,21 +20,20 @@ Install system requirements:
 $ apt update
 $ apt install build-essential \
   cmake \
+  git \
   python3 \
   pyhton3-pip \
   pyhton3-venv \
   gcc-arm-none-eabi \
-  g++-arm-none-eabi \
-  arm-none-eabi-binutils \
-  arm-none-eabi-gcc \
-  arm-none-eabi-gdb \
-  arm-none-eabi-newlib
+  gdb-arm-none-eabi \
+  binutils-arm-none-eabi \
+  newlib
 ```
 
 Clone repository, configure and activate virtual environment:
 
 ```
-$ git clone <TODO_CHANGE_ONCE_UPLOADED> vcu
+$ git clone https://github.com/SolisEV-UTCN/vehicle_control_unit.git vcu
 $ cd vcu
 $ python3 -m venv .venv
 $ source .venv/bin/activate
@@ -48,6 +47,7 @@ Install system requirements:
 $ pacman -Sy
 $ pacman -Sy build-essential \
   cmake \
+  git \
   python3 \
   pyhton3-pip \
   pyhton3-venv \
@@ -62,7 +62,7 @@ $ pacman -Sy build-essential \
 Clone repository, configure and activate virtual environment:
 
 ```
-$ git clone <TODO_CHANGE_ONCE_UPLOADED> vcu
+$ git clone https://github.com/SolisEV-UTCN/vehicle_control_unit.git vcu
 $ cd vcu
 $ python3 -m venv .venv
 $ source .venv/bin/activate
@@ -79,7 +79,7 @@ Install system requirements:
 Clone repository, configure and activate virtual environment:
 
 ```
-$ git clone <TODO_CHANGE_ONCE_UPLOADED> vcu
+$ git clone https://github.com/SolisEV-UTCN/vehicle_control_unit.git vcu
 $ cd vcu
 $ python3 -m venv .venv
 $ & .venv\Scripts\activate
@@ -96,7 +96,7 @@ Install system requirements:
 Clone repository, configure and activate virtual environment:
 
 ```
-$ git clone <TODO_CHANGE_ONCE_UPLOADED> vcu
+$ git clone https://github.com/SolisEV-UTCN/vehicle_control_unit.git vcu
 $ cd vcu
 $ python3 -m venv .venv
 $ source .venv/bin/activate
@@ -111,6 +111,8 @@ _NOTE:_ Commands that start with `(.venv)$` should be executed from the virtual 
 ```
 (.venv)$ python3 -m pip install conan
 (.venv)$ conan remote add libhal-trunk https://libhal.jfrog.io/artifactory/api/conan/trunk-conan
+(.venv)$ conan config install -sf profiles/baremetal/v2 https://github.com/libhal/conan-config.git
+(.venv)$ conan profile detect --force
 ```
 
 There are 4 __BUILD_TYPES__: 
