@@ -1,8 +1,12 @@
 #!/bin/bash
 
 # Default values
-BUILD_TYPE="Release"
-TARGET="stm32f303cb"
+if [ -z "$BUILD_TYPE" ]; then
+   BUILD_TYPE=Release
+fi
+if [ -z "$TARGET" ]; then
+   TARGET=stm32f303cb
+fi
 
 # Valid values
 VALID_BUILD_TYPES=("Release" "Debug" "RelWithDebInfo" "MinSizeRel")
@@ -30,45 +34,19 @@ function is_valid() {
     return 1
 }
 
-# Parse arguments
-while [[ $# -gt 0 ]]; do
-   case "${1,,}" in
-      -b|--build)
-         if [[ -z "$2" ]]; then
-            echo "Error: Missing value for option '$1'."
-            help
-         fi
-         input="${2,,}"  # Convert input to lowercase
-         BUILD_TYPE=$(is_valid "$input" "${VALID_BUILD_TYPES[@]}")
-         if [[ -z "$BUILD_TYPE" ]]; then
-            echo "Error: Invalid build type '$2'. Valid types are: ${VALID_BUILD_TYPES[*]}"
-            exit 1
-         fi
-         shift 2
-         ;;
-      -t|--target)
-         if [[ -z "$2" ]]; then
-            echo "Error: Missing value for option '$1'."
-            help
-         fi
-         input="${2,,}"  # Convert input to lowercase
-         TARGET=$(is_valid "$input" "${VALID_TARGETS[@]}")
-         if [[ -z "$TARGET" ]]; then
-            echo "Error: Invalid target '$2'. Valid targets are: ${VALID_TARGETS[*]}"
-            exit 1
-         fi
-         shift 2
-         ;;
-      -*|--*)
-         echo "Unknown option: $1"
-         help
-         ;;
-      *)
-         echo "Unknown argument: $1"
-         help
-         ;;
-   esac
-done
+# Validate BUILD_TYPE
+BUILD_TYPE=$(is_valid "$BUILD_TYPE" "${VALID_BUILD_TYPES[@]}")
+if [[ -z "$BUILD_TYPE" ]]; then
+    echo "Error: Invalid build type '$BUILD_TYPE'. Valid types are: ${VALID_BUILD_TYPES[*]}"
+    exit 1
+fi
+
+# Validate TARGET
+TARGET=$(is_valid "$TARGET" "${VALID_TARGETS[@]}")
+if [[ -z "$TARGET" ]]; then
+    echo "Error: Invalid target '$TARGET'. Valid targets are: ${VALID_TARGETS[*]}"
+    exit 1
+fi
 
 # Enable virtual environment
 source ./.venv/bin/activate

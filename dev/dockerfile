@@ -20,4 +20,4 @@ RUN conan config install -sf profiles/baremetal/v2 https://github.com/libhal/con
 RUN conan profile detect --force
 
 # Run build script and move target binaries
-ENTRYPOINT [ "/bin/bash", "-c", "scripts/build_docker.sh", "-b", $BUILD_TYPE, "-t", $TARGET ]
+CMD [ "scripts/build_docker.sh" ]
