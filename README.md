@@ -102,7 +102,28 @@ $ python3 -m venv .venv
 $ source .venv/bin/activate
 ```
 
-## Building
+## Configurations
+
+Substitute `<BUILD_TYPE>` with one of following options: 
+1. Release
+2. Debug
+3. MinSizeRel
+4. RelWithDebInfo
+
+Substitute `<TARGET>` with one of following options: 
+1. stm32f103rb
+2. stm32f303cb
+
+## Building with Docker
+
+Make sure you have a docker installed and running. Docker will mount a local volume to output generated files.
+
+```
+$ docker build . -t stm32 -f dev/dockerfile
+$ docker run -v $(pwd)/build:/build -e BUILD_TYPE=<BUILD_TYPE> -e TARGET=<TARGET> stm32
+```
+
+## Building with Conan
 
 Project dependencies are managed by _Conan_. To install and configure _Conan_:
 
@@ -115,15 +136,13 @@ _NOTE:_ Commands that start with `(.venv)$` should be executed from the virtual 
 (.venv)$ conan profile detect --force
 ```
 
-There are 4 __BUILD_TYPES__: 
-1. Release (default)
-2. Debug
-3. MinSizeRel
-4. RelWithDebInfo
+### Using script
 
-There are 2 __TARGETS__: 
-1. stm32f103rb
-2. stm32f303cb
+```
+$ scripts/build.sh -b <BUILD_TYPE> -t <TARGET>
+```
+
+### Using CMake
 
 ```
 (.venv)$ conan install . -pr dev/gcc-target-<TARGET>.txt --build=missing -s build_type=<BUILD_TYPE>
@@ -202,4 +221,6 @@ Debugging is done via OpenOCD and arm-none-eabi-gdb. For more information on how
 3. Specify source directories: `(gdb) dir <PATH_TO_REPO>/src`
 4. Connect to target: `(gdb) target extended-remote localhost:3333`
 
-_Note:_ Target configs (__TARGET_CONF__) is either `stm32f1x` or `stm32f3x`.
+_Note 1:_ Target configs (__TARGET_CONF__) is either `stm32f1x` or `stm32f3x`.
+
+_Note 2:_ Commands that start with `(gdb)` should be executed from the GDB terminal.
