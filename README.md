@@ -155,7 +155,7 @@ Found 1 stlink programmers
 
 Finally, flash target `.bin` file onto FLASH memory.
 
-`st-flash --reset write vehicle_control_unit.bin 0x08000000`
+`$ st-flash --reset write build/Debug/stm32f303cb/vehicle_control_unit.bin 0x08000000`
 
 _Note 1:_ If your device-type is unknown or you can't connect to SWD check ST-Link jumpers on the board. Also, make sure JP5 jumper is set on U5V.
 
@@ -195,8 +195,11 @@ Afterwards, you can attach this device to your WSL2 instance:
 
 ### Debugging
 
-Debugging is done via OpenOCD. Following steps are for STM32F303CB MCU. To adapt steps for different target change OpenOCD configuration and select correct executable file.
+Debugging is done via OpenOCD and arm-none-eabi-gdb. For more information on how to debug with GDB you can read this [summary](https://jacobmossberg.se/posts/2017/01/17/use-gdb-on-arm-assembly-program.html).
 
-1. Open OpenOCD: `$ openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/target/stm32f3x.cfg`
-2. Start GDB with target ELF file: `$ arm-none-eabi-gdb build/Debug/stm32f303cb/vehicle_control_unit`
-3. Connect to target: `(gdb) target extended-remote localhost:3333`
+1. Open OpenOCD: `$ openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/target/<TARGET_CONF>.cfg`
+2. Start GDB with target ELF file: `$ arm-none-eabi-gdb build/<BUILD_TYPE>/<TARGET>/vehicle_control_unit`
+3. Specify source directories: `(gdb) dir <PATH_TO_REPO>/src`
+4. Connect to target: `(gdb) target extended-remote localhost:3333`
+
+_Note:_ Target configs (__TARGET_CONF__) is either `stm32f1x` or `stm32f3x`.
