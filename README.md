@@ -85,12 +85,37 @@ $ python3 -m venv .venv
 $ & .venv\Scripts\activate
 ```
 
-### Mac (WIP)
+### Mac
 
-Install system requirements:
+1. Installing Homebrew on macOS
+
+Installation Steps:
+
+Run the following command to install Homebrew:
 
 ```
-#TODO
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Verify Homebrew installation:
+
+```
+brew --version
+```
+
+Add Homebrew to your PATH (if not done automatically):
+
+```
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+2. Installing Packages Using Homebrew
+
+Run the following command in Terminal to install all packages:
+
+```
+brew install cmake arm-none-eabi-gcc arm-none-eabi-binutils
 ```
 
 Clone repository, configure and activate virtual environment:

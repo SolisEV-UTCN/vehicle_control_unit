@@ -12,3 +12,4 @@ build/*
 # Ignore virtualenv
 .venv/
 venv/
+.DS_Store
